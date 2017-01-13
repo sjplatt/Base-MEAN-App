@@ -1,8 +1,14 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#logout_button {  
+    margin-top: 8px;
+    color: #777;
 }
 
-a {
-  color: #00B7FF;
+#login_error_msg {
+    margin-top: 12px;
+    color: red;
+}
+
+#register_error_msg{
+    margin-top: 12px;
+    color: red;
 }

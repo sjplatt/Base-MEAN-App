@@ -1,25 +1,34 @@
-(function () {
+(function() {
 
   angular
-  .module('meanApp')
-  .controller('loginCtrl', loginCtrl);
+    .module('meanApp')
+    .controller('loginCtrl', loginCtrl);
 
-  loginCtrl.$inject = ['$location', 'authentication'];
-  function loginCtrl($location, authentication) {
+  loginCtrl.$inject = ['$scope', '$location', 'authentication'];
+
+  function loginCtrl($scope, $location, authentication) {
     var vm = this;
 
+    if (authentication.isLoggedIn()) {
+      $location.path('profile');
+      return;
+    }
+
     vm.credentials = {
-      email : "",
-      password : ""
+      email: "",
+      password: ""
     };
 
-    vm.onSubmit = function () {
+    $scope.error = "";
+
+    vm.onSubmit = function() {
       authentication
         .login(vm.credentials)
-        .error(function(err){
-          alert(err);
+        .error(function(err) {
+          $scope.error = err.message;
         })
-        .then(function(){
+        .then(function() {
+          $scope.error = "";
           $location.path('profile');
         });
     };

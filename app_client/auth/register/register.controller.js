@@ -1,27 +1,36 @@
-(function () {
+(function() {
 
   angular
     .module('meanApp')
     .controller('registerCtrl', registerCtrl);
 
-  registerCtrl.$inject = ['$location', 'authentication'];
-  function registerCtrl($location, authentication) {
+  registerCtrl.$inject = ['$scope', '$location', 'authentication'];
+
+  function registerCtrl($scope, $location, authentication) {
     var vm = this;
 
+    if (authentication.isLoggedIn()) {
+      $location.path('profile');
+      return;
+    }
+
     vm.credentials = {
-      name : "",
-      email : "",
-      password : ""
+      name: "",
+      email: "",
+      password: ""
     };
 
-    vm.onSubmit = function () {
+    $scope.error = "";
+
+    vm.onSubmit = function() {
       console.log('Submitting registration');
       authentication
         .register(vm.credentials)
-        .error(function(err){
-          alert(err);
+        .error(function(err) {
+          $scope.error = "Duplicate email " + err.op.email;
         })
-        .then(function(){
+        .then(function() {
+          $scope.error = "";
           $location.path('profile');
         });
     };

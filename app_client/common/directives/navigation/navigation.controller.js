@@ -1,17 +1,22 @@
-(function () {
+(function() {
 
-  angular
-    .module('meanApp')
-    .controller('navigationCtrl', navigationCtrl);
+    angular
+        .module('meanApp')
+        .controller('navigationCtrl', navigationCtrl);
 
-  navigationCtrl.$inject = ['$location','authentication'];
-  function navigationCtrl($location, authentication) {
-    var vm = this;
+    navigationCtrl.$inject = ['$scope', '$location', 'authentication'];
 
-    vm.isLoggedIn = authentication.isLoggedIn();
+    function navigationCtrl($scope, $location, authentication) {
+        var vm = this;
 
-    vm.currentUser = authentication.currentUser();
+        vm.isLoggedIn = authentication.isLoggedIn();
+        vm.currentUser = authentication.currentUser();
 
-  }
+        $scope.logout = function() {
+            authentication.logout();
+            vm.isLoggedIn = authentication.isLoggedIn();
+            vm.currentUser = authentication.currentUser();
+        };
+    }
 
 })();
